@@ -1,5 +1,6 @@
 // variable global
 let numeroaleatorio = generarnumeroaleatorio();
+let intentos =1;
 // creamos la funcion donde creamos las variables
 function asignarTextoElemento(elemento, texto){
     let elementohtml = document.querySelector(elemento);
@@ -11,12 +12,25 @@ asignarTextoElemento('p','Ingrese un numero del 1 al 10');
 
 function intentoDeUsuario(){
     let numeroDeUsuario = parseInt(document.getElementById('valorUsuario').value);
-    console.log(typeof(numeroDeUsuario));
-    console.log(numeroaleatorio)
-    console.log(typeof(numeroaleatorio));
-    console.log(numeroDeUsuario)
-    console.log(numeroaleatorio === numeroDeUsuario);
+    if(numeroDeUsuario == numeroaleatorio){
+        asignarTextoElemento('p',`Acertaste el numero en ${intentos} ${(intentos ===1 ? 'vez' : 'Veces')}`);
+        document.getElementById('reiniciar').removeAttribute('disabled')
+    }
+    else{
+        if(numeroDeUsuario > numeroaleatorio){
+            asignarTextoElemento('p','El numero secreto es menor');
+        }
+        else{
+            asignarTextoElemento('p','El numero secreto es mayor');
+        }
+    }
+    intentos++
+    limpiarcaja();
     return;
+}
+// Funcion que limpia la caja
+function limpiarcaja(){
+    document.querySelector('#valorUsuario').value='';
 }
 
 function generarnumeroaleatorio(){
