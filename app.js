@@ -1,10 +1,13 @@
 // variable global
-let numeroaleatorio = generarnumeroaleatorio();
-let intentos = 1;
+let numeroaleatorio = 0;
+let intentos = 0;
+let listaNumerosSorteados = [];
+let numeroMaximo = 10;
 // creamos la funcion donde creamos las variables
 function asignarTextoElemento(elemento, texto) {
     let elementohtml = document.querySelector(elemento);
     elementohtml.innerHTML = texto;
+    return;
 }
 
 function intentoDeUsuario() {
@@ -32,13 +35,31 @@ function limpiarcaja() {
 
 // funcion que genera el numero aleatorio
 function generarnumeroaleatorio() {
-    return Math.floor(Math.random() * 10) + 1;
+
+    let numeroGenerado = Math.floor(Math.random() * numeroMaximo) + 1;
+    console.log(numeroGenerado)
+    console.log(listaNumerosSorteados)
+    // si ya se sorteo todos los numeros 
+    if (listaNumerosSorteados.length === numeroMaximo) {
+        asignarTextoElemento('p','Ya se sortearon todos los numeros posibles')
+    }
+    else {
+        // si el numero generado esta incluido en la lista
+        if (listaNumerosSorteados.includes(numeroGenerado)) {
+            return generarnumeroaleatorio();
+        }
+        else {
+            listaNumerosSorteados.push(numeroGenerado);
+            return numeroGenerado;
+        }
+    }
+
 }
 
 function condicionesIniciales() {
     // llamamos a la funcion y modificamos el comportamiento de los elementos
     asignarTextoElemento('h1', 'Juego del numero secreto');
-    asignarTextoElemento('p', 'Ingrese un numero del 1 al 10');
+    asignarTextoElemento('p', `Ingrese un numero del 1 al ${numeroMaximo}`);
     numeroaleatorio = generarnumeroaleatorio();
     intentos = 1;
 }
@@ -51,6 +72,6 @@ function reiniciarjuego() {
     // Inicializar el numero de intentos
     condicionesIniciales();
     // Deshabilitar el boton de nuevo juego
-    document.querySelector('#reiniciar').setAttribute('disabled','true')
+    document.querySelector('#reiniciar').setAttribute('disabled', 'true')
 }
 condicionesIniciales();
